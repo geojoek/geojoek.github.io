@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <style>
+        #map {
+            width: 762px;
+            height: 1243px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="data/json_1950.js"></script>
+        <script src="data/json_179ConnecticutPhase1.js"></script>
+        <script src="data/json_172Stable2.js"></script>
+        <script src="data/json_156unstable3.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:18, minZoom:7
+        }).fitBounds([[41.4338570851,-73.21938743],[43.6421687408,-71.368872232]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>,<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash;Map data: &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 18
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_1950(feature, layer) {
+            var popupContent = '<table><tr><td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td></tr><tr><td colspan="2">' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyle1950(feature) {
+			switch (feature.properties['Type']) {
+                case 'glacier':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#dadfd6',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+                case 'lake':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#1f93b4',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+            }
+        }
+        map.createPane('pane_1950');
+        map.getPane('pane_1950').style.zIndex = 601;
+        var json_1950JSON = new L.geoJson(json_1950, {
+            pane: 'pane_1950',
+            onEachFeature: pop_1950,
+            style: doStyle1950
+        });
+        bounds_group.addLayer(json_1950JSON);
+        feature_group.addLayer(json_1950JSON);
+        function pop_179ConnecticutPhase1(feature, layer) {
+            var popupContent = '<table><tr><td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td></tr><tr><td colspan="2">' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyle179ConnecticutPhase1(feature) {
+			switch (feature.properties['Type']) {
+                case 'glacier':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#dadfd6',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+                case 'lake':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#1f93b4',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+            }
+        }
+        map.createPane('pane_179ConnecticutPhase1');
+        map.getPane('pane_179ConnecticutPhase1').style.zIndex = 602;
+        var json_179ConnecticutPhase1JSON = new L.geoJson(json_179ConnecticutPhase1, {
+            pane: 'pane_179ConnecticutPhase1',
+            onEachFeature: pop_179ConnecticutPhase1,
+            style: doStyle179ConnecticutPhase1
+        });
+        bounds_group.addLayer(json_179ConnecticutPhase1JSON);
+        feature_group.addLayer(json_179ConnecticutPhase1JSON);
+        function pop_172Stable2(feature, layer) {
+            var popupContent = '<table><tr><td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td></tr><tr><td colspan="2">' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyle172Stable2(feature) {
+			switch (feature.properties['Type']) {
+                case 'glacier':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#dadfd6',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+                case 'lake':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#1f93b4',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+            }
+        }
+        map.createPane('pane_172Stable2');
+        map.getPane('pane_172Stable2').style.zIndex = 603;
+        var json_172Stable2JSON = new L.geoJson(json_172Stable2, {
+            pane: 'pane_172Stable2',
+            onEachFeature: pop_172Stable2,
+            style: doStyle172Stable2
+        });
+        bounds_group.addLayer(json_172Stable2JSON);
+        feature_group.addLayer(json_172Stable2JSON);
+        function pop_156unstable3(feature, layer) {
+            var popupContent = '<table><tr><td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td></tr><tr><td colspan="2">' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStyle156unstable3(feature) {
+			switch (feature.properties['Type']) {
+                case 'glacier':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#dadfd6',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+                case 'lake':
+                    return {
+                    weight: '1.04',
+                    fillColor: '#1f93b4',
+                    color: '#000000',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    opacity: '0.0',
+                    fillOpacity: '1.0',
+                };
+                break;
+
+            }
+        }
+        map.createPane('pane_156unstable3');
+        map.getPane('pane_156unstable3').style.zIndex = 604;
+        var json_156unstable3JSON = new L.geoJson(json_156unstable3, {
+            pane: 'pane_156unstable3',
+            onEachFeature: pop_156unstable3,
+            style: doStyle156unstable3
+        });
+        bounds_group.addLayer(json_156unstable3JSON);
+        feature_group.addLayer(json_156unstable3JSON);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        var baseMaps = {'Stamen Terrain': basemap0};
+        L.control.layers(baseMaps,{'15-6_unstable<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/156unstable3_glacier.png" /> glacier<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/156unstable3_lake.png" /> lake<br />': json_156unstable3JSON,'17-2_Stable<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/172Stable2_glacier.png" /> glacier<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/172Stable2_lake.png" /> lake<br />': json_172Stable2JSON,'17-9_Connecticut_Phase<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/179ConnecticutPhase1_glacier.png" /> glacier<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/179ConnecticutPhase1_lake.png" /> lake<br />': json_179ConnecticutPhase1JSON,'19-5<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/1950_glacier.png" /> glacier<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="legend/1950_lake.png" /> lake<br />': json_1950JSON,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
